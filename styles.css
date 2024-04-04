@@ -1,6 +1,7 @@
 :root {
     --background-color: skyblue;
     font-family: 'Courier New', Courier, monospace;
+	font-size: 18px;
 }
 
 body {
