@@ -149,16 +149,16 @@ br {
 }
 
 .x5 {
-	-webkit-animation: animateCloud 25s linear infinite;
+	/* -webkit-animation: animateCloud 25s linear infinite;
 	-moz-animation: animateCloud 25s linear infinite;
-	animation: animateCloud 25s linear infinite;
+	animation: animateCloud 25s linear infinite; */
 	
 	-webkit-transform: scale(0.55);
 	-moz-transform: scale(0.55);
 	transform: scale(0.55);
 }
 
-/* OBJECTS */
+/*  */
 
 .cloud {
 	background: #fff;
@@ -212,7 +212,11 @@ br {
 	top: -90px;
 }
 
-.sun {
+/* 
+	Do we use a single element 'celestial-body' for both sun and moon and just change the properties based on the media query? Or do we use two separate elements and hide one or the other based on the media query?
+*/
+#sun {
+	display: block;
     width: 150px;
     height: 150px;
     background: #FFDD00;
@@ -222,4 +226,73 @@ br {
     left: 40px;
     box-shadow: 0 0 50px #FFDD00;
     z-index: -2;
+}
+
+#moon {
+	display: none;
+	width: 175px;
+	height: 175px;
+	background: antiquewhite;
+	border-radius: 50%;
+	position: absolute;
+	top: 40px;
+	left: 40px;
+	box-shadow: 0 0 10px ghostwhite;
+	z-index: -2;
+
+	/* Here it is very tempting to use a third div for the shadow over the moon
+	   instead of a psuedo-element, strictly so that you can name the element
+	   'earth' and have 'sun, moon, and earth' represented in your code. */
+	&::after {
+		content: '';
+		width: 175px;
+		height: 175px;
+		background: #1e3c72;
+		border-radius: 50%;
+		position: absolute;
+		top: 10px;
+		left: 50px;
+		box-shadow: 0 0 5px var(--background-color);
+
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background-color: linear-gradient(
+			to bottom,
+			#1e3c72,#1e3c72,#2a5298
+		  );;
+	}
+
+	/*
+		The dark-mode for the page element ended up with a nice 
+		web 1.0 feel to it.  
+	*/
+	.page {
+		background-color: #1e3c72;
+		color: ghostwhite;
+		box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.85);
+
+		a {
+			color: #ffdd00;
+		}
+	}
+
+	#moon {
+		display: block;
+	}
+	#sun {
+		display: none;
+	}
+
+	.cloud {
+		/*
+			TODO: Make the psuedo-elements of the cloud match the gradient of the cloud itself, and then apply the filter to the whole cloud.
+			Here we are temporarily setting the background to a flat white (before darkening it. It is proving tricky to get the gradient on the 
+			cloud's psuedo-elements to match the gradient on the cloud itself.
+		*/
+		background: #fff;
+		filter: brightness(0.35) contrast(1.2);
+	}
 }
